@@ -37,11 +37,13 @@ class ChatGPT
    * $response = ChatGPT::requestCompletion('Hello, how are you?');
    * echo $response::$message;
    */
-  public static function requestCompletion($prompt, $url = "https://api.openai.com/v1/chat/completions")
+  public static function requestCompletion($prompt)
   {
-    $apiKey = Env::get('chatgpt_key');
+    $url = Env::get('chatgpt.url') || "https://api.openai.com/v1/chat/completions";
+
+    $apiKey = Env::get('chatgpt.key');
     $postData = json_encode([
-      'model' => 'gpt-4o-2024-05-13',
+      'model' => Env::get('chatgpt.model') || 'gpt-4o-2024-05-13',
       'messages' => [['role' => 'user', 'content' => $prompt]],
       'max_tokens' => 100
     ]);
